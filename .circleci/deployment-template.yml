@@ -25,6 +25,23 @@ spec:
         collection: microservices
       name: crosstower-vpn
     spec:
+      volumes:
+      - name: crosstower-vpn-credentials
+        secret:
+          secretName: crosstower-vpn-credentials
+          items:
+          # mounted at /data/vpn/fix_srv013.conf
+          - key: fix_srv013.conf
+            path: fix_srv013.conf
+          # mounted at /data/vpn/fix_srv013/<file>
+          - key: ca.crt
+            path: fix_srv013/ca.crt
+          - key: client3938613.crt
+            path: fix_srv013/client3938613.crt
+          - key: client3938613.key
+            path: fix_srv013/client3938613.key
+          - key: client3938613.pass
+            path: fix_srv013/client3938613.pass
       containers:
       - image: 808678941459.dkr.ecr.us-east-1.amazonaws.com/openvpn-client:$IMAGE_TAG
         name: crosstower-vpn
@@ -37,23 +54,6 @@ spec:
         - name: crosstower-vpn-credentials
           mountPath: /data/vpn
           readOnly: false
-        volumes:
-        - name: crosstower-vpn-credentials
-          secret:
-            secretName: crosstower-vpn-credentials
-            items:
-            # mounted at /data/vpn/fix_srv013.conf
-            - key: fix_srv013.conf
-              path: fix_srv013.conf
-            # mounted at /data/vpn/fix_srv013/<file>
-            - key: ca.crt
-              path: fix_srv013/ca.crt
-            - key: client3938613.crt
-              path: fix_srv013/client3938613.crt
-            - key: client3938613.key
-              path: fix_srv013/client3938613.key
-            - key: client3938613.pass
-              path: fix_srv013/client3938613.pass
         env:
         - name: SOCKS_PROXY
           value: "on"
