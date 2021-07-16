@@ -34,11 +34,11 @@ spec:
         ports:
         - containerPort: 1080
         volumeMounts:
-        - name: vpn-credentials
+        - name: crosstower-vpn-credentials
           mountPath: /data/vpn
           readOnly: false
         volumes:
-        - name: vpn-credentials
+        - name: crosstower-vpn-credentials
           secret:
             secretName: crosstower-vpn-credentials
         env:
