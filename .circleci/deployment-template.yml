@@ -34,9 +34,26 @@ spec:
         ports:
         - containerPort: 1080
         volumeMounts:
-        - name: crosstower_vpn
-          mountPath: /var/secrets
+        - name: crosstower-vpn-credentials
+          mountPath: /data/vpn
           readOnly: false
+        volumes:
+        - name: crosstower-vpn-credentials
+          secret:
+            secretName: crosstower-vpn-credentials
+            items:
+            # mounted at /data/vpn/fix_srv013.conf
+            - key: fix_srv013.conf
+              path: fix_srv013.conf
+            # mounted at /data/vpn/fix_srv013/<file>
+            - key: ca.crt
+              path: fix_srv013/ca.crt
+            - key: client3938613.crt
+              path: fix_srv013/client3938613.crt
+            - key: client3938613.key
+              path: fix_srv013/client3938613.key
+            - key: client3938613.pass
+              path: fix_srv013/client3938613.pass
         env:
         - name: SOCKS_PROXY
           value: "on"
@@ -47,12 +64,12 @@ spec:
         - name: PROXY_USERNAME
           valueFrom:
             secretKeyRef:
-              name: openvpn-client
+              name: crosstower-proxy-credentials
               key: key_crosstower_proxy_username_1
         - name: PROXY_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: openvpn-client
+              name: crosstower-proxy-credentials
               key: key_crosstower_proxy_password_1
         resources:
           # 3 GiB ram, 1 cpu core
