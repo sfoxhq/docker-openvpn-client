@@ -33,7 +33,7 @@ workflows:
             <<: *build-branches
             context: global_secrets
             name: build
-            ecr-repository-name: "config-monitor"
+            ecr-repository-name: "openvpn-client"
       - hold:
             <<: *deploy-branches
             type: approval
