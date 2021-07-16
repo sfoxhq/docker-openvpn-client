@@ -35,7 +35,7 @@ spec:
         - containerPort: 1080
         volumeMounts:
         - name: crosstower_vpn
-          mountPath: /var/secrets
+          mountPath: /data/vpn
           readOnly: false
         env:
         - name: SOCKS_PROXY
