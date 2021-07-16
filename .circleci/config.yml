@@ -1,0 +1,48 @@
+job-defaults: &job-defaults
+  machine:
+    enabled: true
+
+deploy-branches: &deploy-branches
+  filters:
+    branches:
+      only:
+        - /env\/.*/
+
+build-branches: &build-branches
+  filters:
+    branches:
+      only:
+        - master
+        - /env\/.*/
+        - /pull\/.*/
+
+workflow-defaults: &workflow-defaults
+  context: global_secrets
+
+version: 2.1
+orbs:
+  sfox: mobani/drake@0.0.29
+
+workflows:
+  version: 2
+
+  build-and-push:
+    jobs:
+      - sfox/build-and-push:
+            <<: *workflow-defaults
+            <<: *build-branches
+            context: global_secrets
+            name: build
+            ecr-repository-name: "config-monitor"
+      - hold:
+            <<: *deploy-branches
+            type: approval
+            requires:
+              - build
+      - sfox/deploy:
+            <<: *workflow-defaults
+            <<: *deploy-branches
+            context: global_secrets
+            name: deploy
+            requires:
+              - hold

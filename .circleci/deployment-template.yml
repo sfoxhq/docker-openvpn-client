@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: crosstower-vpn
+    stack: trading
+  name: crosstower-vpn
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      k8s-app: crosstower-vpn
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kubernetes.io/change-cause: "$ANNOTATION"
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '9667'
+      labels:
+        k8s-app: crosstower-vpn
+        collection: microservices
+      name: crosstower-vpn
+    spec:
+      containers:
+      - image: 808678941459.dkr.ecr.us-east-1.amazonaws.com/openvpn-client:$IMAGE_TAG
+        name: crosstower-vpn
+        securityContext:
+          capabilities:
+            add: ["NET_ADMIN"]
+        ports:
+        - containerPort: 1080
+        volumeMounts:
+        - name: crosstower_vpn
+          mountPath: /var/secrets
+          readOnly: false
+        env:
+        - name: SOCKS_PROXY
+          value: "on"
+        - name: KILL_SWITCH
+          value: "on"
+        - name: VPN_LOG_LEVEL
+          value: "5"
+        - name: PROXY_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: openvpn-client
+              key: key_crosstower_proxy_username_1
+        - name: PROXY_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: openvpn-client
+              key: key_crosstower_proxy_password_1
+        resources:
+          # 3 GiB ram, 1 cpu core
+          requests:
+            memory: 3000Mi
+            cpu: 1000m
+          # 12 GiB ram, 3 cpu core
+          limits:
+            memory: 12000Mi
+            cpu: 3000m
+        securityContext:
+          privileged: false
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
