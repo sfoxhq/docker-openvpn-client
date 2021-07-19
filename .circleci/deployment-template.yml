@@ -44,7 +44,7 @@ spec:
             path: fix_srv013/client3938613.pass
       initContainers:
       - name: cred-copier
-        image: busybox:1.28
+        image: ubuntu:18.04
         volumeMounts:
         - name: crosstower-vpn-credentials
           mountPath: /vpn
