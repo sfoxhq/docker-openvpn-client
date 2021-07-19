@@ -42,7 +42,7 @@ spec:
             path: fix_srv013/client3938613.key
           - key: client3938613.pass
             path: fix_srv013/client3938613.pass
-      init-containers:
+      initContainers:
       - name: cred-copier
         image: alpine:3.13
         volumeMounts:
