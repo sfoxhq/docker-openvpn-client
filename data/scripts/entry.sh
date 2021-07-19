@@ -1,6 +1,4 @@
-#!/bin/ash
-# shellcheck shell=ash
-# shellcheck disable=SC2169 # making up for lack of ash support
+#!/bin/sh
 
 cleanup() {
     # When you run `docker stop` or any equivalent, a SIGTERM signal is sent to PID 1.
@@ -24,6 +22,7 @@ is_ip() {
 }
 
 # Move the config files from secrets dir to a writeable dir
+sleep 500000
 cp -R /vpn /data
 
 # Capture the filename of the first .conf file to use as the OpenVPN config.
