@@ -48,11 +48,8 @@ spec:
         volumeMounts:
         - name: crosstower-vpn-credentials
           mountPath: /vpn
-        command:
-        - cp
-        - -r
-        - /vpn
-        - /data # puts it at /vpn/data
+        command: ["/bin/sh"]
+        args: ["-c", "mkdir /data; cp -r /vpn /data"]
         securityContext:
           privileged: true
       containers:
