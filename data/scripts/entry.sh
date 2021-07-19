@@ -24,7 +24,7 @@ is_ip() {
 }
 
 # Move the config files from secrets dir to a writeable dir
-cp -R /vpn /data/vpn/
+cp -R /vpn /data
 
 # Capture the filename of the first .conf file to use as the OpenVPN config.
 config_file_original=$(find /data/vpn -name "*.conf" 2> /dev/null | sort | head -1)
