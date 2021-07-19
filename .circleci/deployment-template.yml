@@ -46,6 +46,7 @@ spec:
       - image: 808678941459.dkr.ecr.us-east-1.amazonaws.com/openvpn-client:$IMAGE_TAG
         name: crosstower-vpn
         securityContext:
+          runAsUser: 0
           capabilities:
             add: ["NET_ADMIN"]
         ports:
