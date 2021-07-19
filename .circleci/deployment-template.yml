@@ -44,14 +44,15 @@ spec:
             path: fix_srv013/client3938613.pass
       initContainers:
       - name: cred-copier
-        image: alpine:3.13
+        image: busybox:1.28
         volumeMounts:
         - name: crosstower-vpn-credentials
           mountPath: /vpn
-        command: ["/bin/sh"]
-        args: ["-c", "mkdir /data; cp -r /vpn /data"]
+        command: ['sh', '-c', 'echo cred-copier starting && mkdir /data && cp -r /vpn /data && echo success,exiting']        
+        args: ["-c", ""]
         securityContext:
           privileged: true
+          runAsUser: 0
       containers:
       - image: 808678941459.dkr.ecr.us-east-1.amazonaws.com/openvpn-client:$IMAGE_TAG
         name: crosstower-vpn
