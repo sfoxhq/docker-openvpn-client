@@ -23,6 +23,9 @@ is_ip() {
     echo "$1" | grep -Eq "[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*"
 }
 
+# Move the config files from secrets dir to a writeable dir
+cp -R /vpn /data/vpn/
+
 # Capture the filename of the first .conf file to use as the OpenVPN config.
 config_file_original=$(find /data/vpn -name "*.conf" 2> /dev/null | sort | head -1)
 if [ -z "$config_file_original" ]; then

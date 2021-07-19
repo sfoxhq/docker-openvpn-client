@@ -42,17 +42,17 @@ spec:
             path: fix_srv013/client3938613.key
           - key: client3938613.pass
             path: fix_srv013/client3938613.pass
-      initContainers:
-      - name: cred-copier
-        image: ubuntu:18.04
-        volumeMounts:
-        - name: crosstower-vpn-credentials
-          mountPath: /vpn
-        command: ['sh', '-c', 'echo cred-copier starting && apt-get update -y && apt-get install -y tree && tree /vpn && mkdir /data && cp -r /vpn /data/vpn/ && tree /data && echo success,exiting']        
-        args: ["-c", ""]
-        securityContext:
-          privileged: true
-          runAsUser: 0
+      # initContainers:
+      # - name: cred-copier
+      #   image: ubuntu:18.04
+      #   volumeMounts:
+      #   - name: crosstower-vpn-credentials
+      #     mountPath: /vpn
+      #   command: ['sh', '-c', 'echo cred-copier starting && apt-get update -y && apt-get install -y tree && tree /vpn && mkdir /data && cp -r /vpn /data/vpn/ && tree /data && echo success,exiting']        
+      #   args: ["-c", ""]
+      #   securityContext:
+      #     privileged: true
+      #     runAsUser: 0
       containers:
       - image: 808678941459.dkr.ecr.us-east-1.amazonaws.com/openvpn-client:$IMAGE_TAG
         name: crosstower-vpn
@@ -60,6 +60,9 @@ spec:
           runAsUser: 0
           capabilities:
             add: ["NET_ADMIN"]
+        volumeMounts:
+        - name: crosstower-vpn-credentials
+          mountPath: /vpn
         ports:
         - containerPort: 1080
         env:
