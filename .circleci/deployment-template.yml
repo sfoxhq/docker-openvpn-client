@@ -42,6 +42,19 @@ spec:
             path: fix_srv013/client3938613.key
           - key: client3938613.pass
             path: fix_srv013/client3938613.pass
+      init-containers:
+      - name: cred-copier
+        image: alpine:3.13
+        volumeMounts:
+        - name: crosstower-vpn-credentials
+          mountPath: /vpn
+        command:
+        - cp
+        - -r
+        - /vpn
+        - /data # puts it at /vpn/data
+        securityContext:
+          privileged: true
       containers:
       - image: 808678941459.dkr.ecr.us-east-1.amazonaws.com/openvpn-client:$IMAGE_TAG
         name: crosstower-vpn
@@ -51,10 +64,6 @@ spec:
             add: ["NET_ADMIN"]
         ports:
         - containerPort: 1080
-        volumeMounts:
-        - name: crosstower-vpn-credentials
-          mountPath: /data/vpn
-          readOnly: false
         env:
         - name: SOCKS_PROXY
           value: "on"
