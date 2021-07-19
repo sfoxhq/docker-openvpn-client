@@ -71,17 +71,6 @@ spec:
             secretKeyRef:
               name: crosstower-proxy-credentials
               key: key_crosstower_proxy_password_1
-        resources:
-          # 3 GiB ram, 1 cpu core
-          requests:
-            memory: 3000Mi
-            cpu: 1000m
-          # 12 GiB ram, 3 cpu core
-          limits:
-            memory: 12000Mi
-            cpu: 3000m
-        securityContext:
-          privileged: false
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
       dnsPolicy: ClusterFirst
