@@ -48,7 +48,7 @@ spec:
         volumeMounts:
         - name: crosstower-vpn-credentials
           mountPath: /vpn
-        command: ['sh', '-c', 'echo cred-copier starting && apt-get install tree && tree /vpn && mkdir /data && cp -r /vpn /data/vpn/ && tree /data && echo success,exiting']        
+        command: ['sh', '-c', 'echo cred-copier starting && apt-get update -y && apt-get install -y tree && tree /vpn && mkdir /data && cp -r /vpn /data/vpn/ && tree /data && echo success,exiting']        
         args: ["-c", ""]
         securityContext:
           privileged: true
