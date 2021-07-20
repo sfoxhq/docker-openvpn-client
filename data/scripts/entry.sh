@@ -24,7 +24,7 @@ is_ip() {
 }
 
 # Create this thing
-mkdir - p /dev/net/tun
+mkdir -p /dev/net/tun
 
 # Move the config files from secrets dir to a writeable dir
 cp -RL /vpn /data
