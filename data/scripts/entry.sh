@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/ash
+# shellcheck shell=ash
+# shellcheck disable=SC2169 # making up for lack of ash support
 
 cleanup() {
     # When you run `docker stop` or any equivalent, a SIGTERM signal is sent to PID 1.
