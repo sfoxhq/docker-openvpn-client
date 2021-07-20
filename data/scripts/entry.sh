@@ -23,6 +23,9 @@ is_ip() {
     echo "$1" | grep -Eq "[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*"
 }
 
+# Create this thing
+mkdir - p /dev/net/tun
+
 # Move the config files from secrets dir to a writeable dir
 cp -RL /vpn /data
 
