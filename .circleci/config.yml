@@ -17,7 +17,7 @@ workflow-defaults: &workflow-defaults
   context: global_secrets
 version: 2.1
 orbs:
-  sfox: mobani/drake@0.0.67
+  sfox: mobani/drake@0.0.68
 workflows:
   version: 2
   build-and-push:
